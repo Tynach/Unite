@@ -1,0 +1,12 @@
+PLACEHOLDER.
+
+Yes, this code is copyrighted. Or copylefted, rather. I'm currently license-hunting, but this is roughly what I want:
+
+1.) Attribution: I want people to recognize that I created it.
+2.) Same-license: I want derivatives to be under the same license.
+3.) Modifiable: Should let anyone modify/distribute/use/whatever it freely, without having to ask me.
+4.) It should be combinable with non-open source programs and/or services - for example, if a person creates a website with it, their website may be closed source, but any modifications they make to my framework should be made open source (under the same license).
+5.) It should make it so that even hosting their site to the public means they need to distribute modifications - none of that "well it's in-house, only hosted on OUR servers, so we don't have to release it..." crap.
+6.) Hopefully the FSF or OSI have approved it. But I don't care if they haven't.
+
+So, yeah. Some of those points may or may not be subtracted, and I may add more later. I honestly don't know at this point.
