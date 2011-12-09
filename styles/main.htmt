@@ -15,7 +15,7 @@
 			<!-- If you want to include a module, you would do it similarly to the above - except replace the first 'content' with something like 'sidebar'. So, you'd echo out:
 			$this->sidebar->content
 
-			in keeping with the above example for a sidebar.php module.-->
+			in keeping with the above example for a navigation.php module.-->
 		</div>
 	</body>
 </html>

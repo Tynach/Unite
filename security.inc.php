@@ -97,6 +97,6 @@ class connection
 	}
 }
 
-$db = new connection;
+//$db = new connection;
 
 ?>

@@ -2,7 +2,7 @@
 
 include('unite.inc.php');
 //Note: Again, page setup is similar to module setup (and internally, page content is treated as a special module), so the '4' is how many indents, and the '\t' is what to use for indents.
-$page = new page('styles/main.htmt', 4, "\t");
+$page = new page('styles/main.htmt', 3, "\t");
 $page->title = 'Home';
 
 ?>
