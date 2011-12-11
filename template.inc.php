@@ -52,10 +52,10 @@ class page
 
 	private $noprev = array('Login', 'Sign Up');
 
-	function __construct($template, $whitespace = NULL, $indent = NULL)
+	function __construct($template)
 	{
 		$this->template = $template;
-		$this->new_module('content', 'this', $whitespace, $indent);
+		$this->new_module('content', 'this');
 	}
 
 	public function new_module($name, $file, $whitespace = NULL, $indent = NULL)
