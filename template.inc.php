@@ -5,8 +5,8 @@ class module
 {
 	public $content;
 	private $file;
-	private $indent;
-	private $whitespace;
+	public $whitespace;
+	public $indent;
 
 	function __construct($file, $whitespace = NULL, $indent = NULL)
 	{
@@ -70,8 +70,6 @@ class page
 
 	function __destruct()
 	{
-		$this->content->complete();
-
 		if (!in_array($this->title, $this->noprev)) {
 			$_SESSION['prev'] = $_SERVER['SCRIPT_NAME'];
 		}

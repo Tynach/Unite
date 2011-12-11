@@ -3,6 +3,11 @@
 
 //Here is an exmaple of loading a module: the '4' is how many indentations to make, and the '\t' is a tab - which represents what to use for indentation. If you use two spaces for indents, put two spaces in place of '\t'. Note that the '4' is NOT how many characters to put, but how many times to repeat what is in the last one - so if you use 2 spaces for indents, and you indent it twice, you do NOT put '4' in - you put 2 spaces in the last one, and a '2' in the 3rd one.
 //$this->new_module('sidebar', 'navigation.php', 4, "\t");
+
+//This is a bit ugly looking, but it allows me to move the content's indentation settings into the template file.
+$this->content->whitespace = 3;
+$this->content->indent = "\t";
+$this->content->complete();
 ?><!DOCTYPE HTML>
 <html>
 	<head>
