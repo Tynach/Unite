@@ -5,8 +5,8 @@ class module
 {
 	public $content;
 	private $file;
-	public $whitespace;
-	public $indent;
+	private $whitespace;
+	private $indent;
 
 	function __construct($file, $whitespace = NULL, $indent = NULL)
 	{
@@ -27,14 +27,16 @@ class module
 		}
 	}
 
-	function complete()
+	function complete($whitespace = NULL, $indent = NULL)
 	{
 		if ($this->file == 'this') {
 			do {
 				$this->content .= ob_get_contents();
 			} while(ob_end_clean());
 
-			if ($this->whitespace) {
+			if ($whitespace) {
+				$this->content = str_replace("\n", "\n".str_repeat($indent, $whitespace), $this->content);
+			} elseif ($this->whitespace) {
 				$this->content = str_replace("\n", "\n".str_repeat($this->indent, $this->whitespace), $this->content);
 			}
 			$this->content .= "\n";
