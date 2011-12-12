@@ -20,27 +20,24 @@ class module
 				$this->content .= ob_get_contents();
 			} while(ob_end_clean());
 
-			if ($this->whitespace) {
-				$this->content = str_replace("\n", "\n".str_repeat($this->indent, $this->whitespace), $this->content);
-			}
-			$this->content .= "\n";
+			$this->indent();
 		}
 	}
 
-	function complete($whitespace = NULL, $indent = NULL)
+	function indent($whitespace = NULL, $indent = NULL)
 	{
-		if ($this->file == 'this') {
+		if ($this->file = 'this') {
 			do {
 				$this->content .= ob_get_contents();
 			} while(ob_end_clean());
-
-			if ($whitespace) {
-				$this->content = str_replace("\n", "\n".str_repeat($indent, $whitespace), $this->content);
-			} elseif ($this->whitespace) {
-				$this->content = str_replace("\n", "\n".str_repeat($this->indent, $this->whitespace), $this->content);
-			}
-			$this->content .= "\n";
 		}
+
+		if ($whitespace) {
+			$this->content = str_replace("\n", "\n".str_repeat($indent, $whitespace), $this->content);
+		} elseif ($this->whitespace) {
+			$this->content = str_replace("\n", "\n".str_repeat($this->indent, $this->whitespace), $this->content);
+		}
+		$this->content .= "\n";
 	}
 }
 

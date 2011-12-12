@@ -1,11 +1,11 @@
 <?php
 //This allows me to move the content's indentation settings into the template file.
-$this->content->complete(3, "\t");
+$this->content->indent(3, "\t");
 
 //These are the modules to load. Below in the HTML, you can see where each one is 'echoed out'. It's important to note that the third value passed is the number of spaces/tabs/whitespace characters to put before each line, and the fourth is which character to output. Here I'm using tabulators, and the number varies depending on where it's included in the HTML. Note that '$this' is the page object - so '$this->content->content' is actually the output of the PHP page your visitor loads (for example, index.php). The rest, are defined here.
 
 //Here is an exmaple of loading a module: the '4' is how many indentations to make, and the '\t' is a tab - which represents what to use for indentation. If you use two spaces for indents, put two spaces in place of '\t'. Note that the '4' is NOT how many characters to put, but how many times to repeat what is in the last one - so if you use 2 spaces for indents, and you indent it twice, you do NOT put '4' in - you put 2 spaces in the last one, and a '2' in the 3rd one.
-//$this->new_module('sidebar', 'navigation.php', 4, "\t");
+$this->new_module('footer', 'copyright.php', 3, "\t");
 ?><!DOCTYPE HTML>
 <html>
 	<head>
@@ -14,12 +14,10 @@ $this->content->complete(3, "\t");
 	</head>
 	<body>
 		<div id="main">
-			<?php echo $this->content->content;
-
-			/*If you want to include a module, you would do it similarly to the above - except replace the first 'content' with something like 'sidebar'. So, you'd echo out:
-			$this->sidebar->content
-
-			in keeping with the above example for a navigation.php module.*/?>
+			<?php echo $this->content->content; //Includes the content of the page here.?>
+		</div>
+		<div>
+			<?php echo $this->footer->content; //Includes the 'footer' module here.?>
 		</div>
 	</body>
 </html>
