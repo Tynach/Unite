@@ -1,7 +1,5 @@
 <?php
 
-//Modules are little snippets of a page that can be put into templates. If a template loads a module, then every page using that template will have that module as part of the page... For example, if you want every page to have a list of online users at the bottom, this can do that. Note, modules are their own file - though in execution, they're treated the same as your main .php program. So, it is theoretically possible to pass arguments to modules, and allow for the main page to interract with it. I've not tried this, though, so it's not guranteed to work - I'm just saying what I think is theoretically possible.
-
 class container
 {
 	public $content;
@@ -12,23 +10,11 @@ class container
 		$this->indent($whitespace, $indent);
 	}
 
-	protected function indent($whitespace, $indent)
+	function indent($whitespace, $indent)
 	{
 		if ($whitespace AND $indent) {
 			$this->content = str_replace("\n", "\n".str_repeat($indent, $whitespace), $this->content);
 		}
-	}
-}
-
-class module1 extends container
-{
-	function __construct($file, $whitespace = NULL, $indent = NULL)
-	{
-		$this->file = $file;
-		ob_start();
-		$content = $this->ob_process($file);
-
-		parent::__construct($content, $whitespace, $indent);
 	}
 
 	function ob_process($file = NULL, $content = '')
@@ -43,10 +29,36 @@ class module1 extends container
 	}
 }
 
-class page1
+class module extends container
 {
-	
+	function __construct($file, $whitespace = NULL, $indent = NULL)
+	{
+		$this->file = $file;
+		ob_start();
+		$content = $this->ob_process($file);
+
+		parent::__construct($content, $whitespace, $indent);
+	}
 }
+
+class page extends container
+{
+	private $template;
+
+	function __construct($template)
+	{
+		$this->template = $template;
+		ob_start();
+	}
+
+	function __destruct()
+	{
+		header('Content-type: text/html; charset=utf-8');
+		include($this->template);
+	}
+}
+
+/*/Modules are little snippets of a page that can be put into templates. If a template loads a module, then every page using that template will have that module as part of the page... For example, if you want every page to have a list of online users at the bottom, this can do that. Note, modules are their own file - though in execution, they're treated the same as your main .php program. So, it is theoretically possible to pass arguments to modules, and allow for the main page to interract with it. I've not tried this, though, so it's not guranteed to work - I'm just saying what I think is theoretically possible.
 
 class module
 {
@@ -123,6 +135,6 @@ class page
 		header('Content-type: text/html; charset=utf-8');
 		include($this->template);
 	}
-}
+}*/
 
 ?>
