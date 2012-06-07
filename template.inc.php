@@ -21,11 +21,9 @@ abstract class container
 		if ($file) {
 			include($file);
 		}
-
 		do {
 			$content .= ob_get_contents();
 		} while (ob_end_clean());
-
 		return $content;
 	}
 }
@@ -37,7 +35,6 @@ class module extends container
 		$this->file = $file;
 		ob_start();
 		$content = $this->ob_process($file);
-
 		parent::__construct($content, $whitespace, $indent);
 	}
 }
