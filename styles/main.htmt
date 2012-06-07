@@ -1,6 +1,6 @@
 <?php
 //This allows me to move the content's indentation settings into the template file.
-$this->content->indent(3, "\t");
+$this->indent(3, "\t");
 
 //These are the modules to load. Below in the HTML, you can see where each one is 'echoed out'. It's important to note that the third value passed is the number of spaces/tabs/whitespace characters to put before each line, and the fourth is which character to output. Here I'm using tabulators, and the number varies depending on where it's included in the HTML. Note that '$this' is the page object - so '$this->content->content' is actually the output of the PHP page your visitor loads (for example, index.php). The rest, are defined here.
 
@@ -14,7 +14,7 @@ $this->new_module('footer', 'copyright.php', 3, "\t");
 	</head>
 	<body>
 		<div id="main">
-			<?php echo $this->content->content; //Includes the content of the page here.?>
+			<?php echo $this->content; //Includes the content of the page here.?>
 		</div>
 		<div>
 			<?php echo $this->footer->content; //Includes the 'footer' module here.?>
