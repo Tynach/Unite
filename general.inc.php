@@ -1,6 +1,8 @@
 <?php
 
-//Turn off magic quotes by force. This can be horrendously slow on servers that have it turned on. Yes, this is punishment as well as absolutely vital to the scripts to work properly.
+//Turn off magic quotes by force. This can be horrendously slow on servers
+//that have it turned on. Yes, this is punishment as well as absolutely
+//vital to the scripts to work properly.
 if (get_magic_quotes_gpc()) {
 	$process = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
 	while (list($key, $val) = each($process)) {
@@ -18,7 +20,9 @@ if (get_magic_quotes_gpc()) {
 }
 
 
-//These echo paragraphs and lines, respectively. I don't encourage using them, but sometimes they're just EASIER to use than manually exiting PHP and re-entering PHP.
+//These echo paragraphs and lines, respectively. I don't encourage using
+//them, but sometimes they're just EASIER to use than manually exiting PHP
+//and re-entering PHP.
 
 function printp($string)
 {

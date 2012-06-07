@@ -1,5 +1,6 @@
 <?php
 
+//Abstract class representing an HTML element that can contain other HTML elements.
 abstract class container
 {
 	public $content;
@@ -26,8 +27,14 @@ abstract class container
 		} while (ob_end_clean());
 		return $content;
 	}
+
+	function new_module($name, $file, $whitespace = NULL, $indent = NULL)
+	{
+		$this->$name = new module($file, $whitespace, $indent);
+	}
 }
 
+//Extension of the container class that represents individual HTML snippets.
 class module extends container
 {
 	function __construct($file, $whitespace = NULL, $indent = NULL)
@@ -39,6 +46,7 @@ class module extends container
 	}
 }
 
+//Extension of the container class that represents the whole page.
 class page extends container
 {
 	public $title;
@@ -48,11 +56,6 @@ class page extends container
 	{
 		$this->template = $template;
 		ob_start();
-	}
-
-	function new_module($name, $file, $whitespace = NULL, $indent = NULL)
-	{
-		$this->$name = new module($file, $whitespace, $indent);
 	}
 
 	function indent($whitespace, $indent)
