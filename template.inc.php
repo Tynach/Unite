@@ -1,6 +1,6 @@
 <?php
 
-class container
+abstract class container
 {
 	public $content;
 
