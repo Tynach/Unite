@@ -19,11 +19,9 @@ if (get_magic_quotes_gpc()) {
 	unset($process);
 }
 
-
 //These echo paragraphs and lines, respectively. I don't encourage using
 //them, but sometimes they're just EASIER to use than manually exiting PHP
 //and re-entering PHP.
-
 function printp($string)
 {
 	echo "<p>$string\n</p>\n";

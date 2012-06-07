@@ -55,16 +55,16 @@ class filter
 	}
 }
 
-//This is the basic connection class for the database. I initially had every single database call as a method in this class/object, but that was getting a bit... Big. It didn't work out too sell, so instead I'm just sorta using it for error handling and auto-closing of the database.
+//This is the basic connection class for the database. I initially had every single database call as a method in this class/object, but that was getting a bit... Big. It didn't work out too well, so instead I'm just sorta using it for error handling and auto-closing of the database.
 class connection
 {
 	private $errors = array();
 	public $db;
 
-	function __construct()
+	function __construct($dbfile)
 	{
-		include('../dba/dba.txt');
-		$this->db = new mysqli('localhost', 'tynach', $this->password, 'dimentions');
+		include_once($dbfile);
+		$this->db = new mysqli($host, $user, $password, $database);
 
 		$failed = mysqli_connect_errno();
 		if ($failed) {
