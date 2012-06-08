@@ -44,14 +44,15 @@ function previous($page)
 }
 
 //Function to go back one page. Note that this relies on the 'default'
-//closing function above being intact.
+//closing function above being intact (the parameter and 'previous' function
+//being called).
 function back()
 {
 	header('Location: '.$_SESSION['prev']);
 }
 
 //Function to be called at the end of execution. Put other function calls in
-//here.
+//here, as well as any necessary parameters.
 function closing($page)
 {
 	previous($page);

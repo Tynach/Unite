@@ -9,3 +9,5 @@ $page->title = 'Home';
 </p>
 <p>This is basically the content of your page. Other PHP stuff can go in here - the title set above can be set anywhere within this page (even the bottom of it), and it'll still work. The lorem ipsum stuff above? Dummy text. Gotta love it.
 </p>
+<p>Click <a href="login.php">here</a> to log in.
+</p>
