@@ -1,6 +1,9 @@
 <?php
 
+//Indent content and finalize output buffering.
 $this->indent(3, "\t");
+
+//Create a new module on the page. Note it is used below ($this->footer).
 $this->new_module('footer', 'copyright.php', 3, "\t");
 
 ?><!DOCTYPE HTML>
