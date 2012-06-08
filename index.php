@@ -1,7 +1,7 @@
 <?php
 
 include('unite.inc.php');
-$page = new page('styles/main.htmt');
+$page = new page('templates/main.htmt');
 $page->title = 'Home';
 
 ?>

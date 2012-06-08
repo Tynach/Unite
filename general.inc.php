@@ -39,7 +39,7 @@ function previous($page)
 {
 	$noprev = array('Login', 'Sign Up');
 	if (!in_array($page->title, $noprev)) {
-		$_SESSION['prev'] = $_SERVER['SCRIPT_NAME'];
+		$_SESSION['prev'] = $_SERVER['REQUEST_URI'];
 	}
 }
 
