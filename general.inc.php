@@ -32,4 +32,23 @@ function printl($string)
 	echo "$string\n";
 }
 
+//Function to be called at the end of execution. Put other function calls in
+//here. By default, it helps with going 'back' to the page the user was at
+//before attempting to log in or sign up. Title names can be changed and
+//added to the $noprev array, of course.
+function closing()
+{
+	$noprev = array('Login', 'Sign Up');
+	if (!in_array($page->title, $noprev)) {
+		$_SESSION['prev'] = $_SERVER['SCRIPT_NAME'];
+	}
+}
+
+//Function to go back one page. Note that this relies on the 'default'
+//closing function above being intact.
+function back()
+{
+	header('Location: '.$_SESSION['prev']);
+}
+
 ?>

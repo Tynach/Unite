@@ -66,6 +66,9 @@ class page extends container
 
 	function __destruct()
 	{
+		if (function_exists('closing')) {
+			closing();
+		}
 		header('Content-type: text/html; charset=utf-8');
 		include($this->template);
 	}
