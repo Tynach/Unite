@@ -32,11 +32,10 @@ function printl($string)
 	echo "$string\n";
 }
 
-//Function to be called at the end of execution. Put other function calls in
-//here. By default, it helps with going 'back' to the page the user was at
-//before attempting to log in or sign up. Title names can be changed and
-//added to the $noprev array, of course.
-function closing()
+//This helps with going 'back' to the page the user was at before attempting
+//to log in or sign up. Title names can be changed and added to the $noprev
+//array, of course.
+function previous($page)
 {
 	$noprev = array('Login', 'Sign Up');
 	if (!in_array($page->title, $noprev)) {
@@ -49,6 +48,13 @@ function closing()
 function back()
 {
 	header('Location: '.$_SESSION['prev']);
+}
+
+//Function to be called at the end of execution. Put other function calls in
+//here.
+function closing($page)
+{
+	previous($page);
 }
 
 ?>
