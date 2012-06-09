@@ -10,7 +10,16 @@ $this->new_module('footer', 'copyright.php', 3, "\t");
 <html>
 	<head>
 		<title><?php echo $this->title; ?> - Your Website</title>
-		<meta charset="utf-8">
+		<!--<meta charset="utf-8">-->
+		<style type="text/css">
+		.table .row {
+			display: table-row;
+		}
+
+		.row > * {
+			display: table-cell;
+		}
+		</style>
 	</head>
 	<body>
 		<div id="main">

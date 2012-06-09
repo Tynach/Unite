@@ -1,11 +1,11 @@
-<form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="post">
-	<p>
+<form action="<?php echo $_SERVER['SCRIPT_NAME']; ?>" method="post" class="table">
+	<p class="row">
 		<label>Username</label>
-		<input type="text" name="username" value="<?php echo htmlentities($_POST['username']); ?>">
+		<input type="text" name="username" value="<?php echo htmlentities($_POST['username']); ?>" class="input">
 	</p>
-	<p>
+	<p class="row">
 		<label>Password</label>
-		<input type="password" name="password" value="<?php echo htmlentities($_POST['password']); ?>">
+		<input type="password" name="password" value="<?php echo htmlentities($_POST['password']); ?>" class="input">
 	</p>
 	<p>
 		<input type="submit" value="Log In">
