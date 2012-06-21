@@ -1,7 +1,0 @@
-.table .row {
-	display: table-row;
-}
-
-.row > * {
-	display: table-cell;
-}

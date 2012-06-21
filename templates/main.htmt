@@ -1,24 +1,30 @@
 <?php
 
-//Indent content and finalize output buffering.
 $this->indent(3, "\t");
 
-//Create a new module on the page. Note it is used below ($this->footer).
-$this->new_module('copyright', 'copyright.php', 3, "\t");
+//Modules
+$this->new_module('banner', 'fragments/banner.htmf', 3, "\t");
+$this->new_module('navigation', 'fragments/navigation.htmf', 3, "\t");
+$this->new_module('footer', 'fragments/footer.htmf', 3, "\t");
 
 ?><!DOCTYPE HTML>
 <html>
 	<head>
-		<title><?php echo $this->title; ?> - Your Website</title>
+		<title><?php echo $this->title; ?> - Dimentions</title>
 		<meta charset="utf-8">
-		<link rel="stylesheet" type="text/css" href="styles/main.css">
 	</head>
 	<body>
+		<div id="banner">
+			<?php echo $this->banner->content; ?>
+		</div>
 		<div id="main">
 			<?php echo $this->content; ?>
 		</div>
-		<div>
-			<?php echo $this->copyright->content; ?>
+		<div id="navigation">
+			<?php echo $this->navigation->content; ?>
+		</div>
+		<div id="footer">
+			<?php echo $this->footer->content; ?>
 		</div>
 	</body>
 </html>
