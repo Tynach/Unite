@@ -3,9 +3,9 @@
 $this->indent(3, "\t");
 
 //Modules
-$this->new_module('banner', 'fragments/banner.htmf', 3, "\t");
-$this->new_module('navigation', 'fragments/navigation.htmf', 3, "\t");
-$this->new_module('footer', 'fragments/footer.htmf', 3, "\t");
+$this->new_module('banner', 'modules/banner.htmf', 3, "\t");
+$this->new_module('navigation', 'modules/navigation.mod.php', 3, "\t");
+$this->new_module('footer', 'modules/footer.htmf', 3, "\t");
 
 ?><!DOCTYPE HTML>
 <html>
