@@ -22,9 +22,9 @@ foreach ($navArray as $name => $link) {
 	<li id="current"><?php echo $name; ?></li><?php
 	} else {
 ?>
-	<li>
-		<a href="<?php echo $link; ?>"><?php echo $name; ?></a>
-	</li><?php
+	<a href="<?php echo $link; ?>">
+		<li><?php echo $name; ?></li>
+	</a><?php
 	}
 ?>
 
