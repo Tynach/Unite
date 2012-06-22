@@ -4,7 +4,8 @@ $this->indent(4, "\t");
 
 //Modules
 $this->new_module('banner', 'modules/banner.htmf', 4, "\t");
-$this->new_module('navigation', 'modules/navigation.mod.php', 4, "\t");
+$this->new_module('search', 'modules/search.mod.php', 4, "\t");
+$this->new_module('navigation', 'modules/navigation.mod.php', 5, "\t");
 $this->new_module('footer', 'modules/footer.htmf', 4, "\t");
 
 ?><!DOCTYPE HTML>
@@ -19,11 +20,14 @@ $this->new_module('footer', 'modules/footer.htmf', 4, "\t");
 			<div id="banner" class="segment">
 				<?php echo $this->banner->content; ?>
 			</div>
+			<div id="search" class="segment">
+				<?php echo $this->search->content; ?>
+			</div>
 			<div id="content" class="segment">
 				<?php echo $this->content; ?>
-			</div>
-			<div id="navigation">
-				<?php echo $this->navigation->content; ?>
+				<div id="navigation">
+					<?php echo $this->navigation->content; ?>
+				</div>
 			</div>
 			<div id="footer" class="segment">
 				<?php echo $this->footer->content; ?>

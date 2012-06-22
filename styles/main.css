@@ -5,6 +5,7 @@
 * {
 	margin: 0;
 	padding: 0;
+	line-height: 1.125em;
 	font-family: Ubuntu, sans-serif;
 }
 
@@ -13,23 +14,29 @@ body {
 	background-color: #0080FF;
 }
 
+a {
+	text-decoration: none;
+}
+
 
 /****************************************************************************
  **                             - Div Styles -                             **
  ***************************************************************************/
 
 #main {
-	width: 80%;
-	margin: 0 auto;
-	position: relative;
+	width: 65em;
+	margin: 1em auto;
 }
 
 #main > div.segment {
 	margin: 1em 0;
-	padding: 1em 3em;
 	border: 1px solid #000;
 	border-radius: 1em;
 	background-color: #C0E0FF;
+}
+
+#main > div p {
+	margin: 1em 3em;
 }
 
 
@@ -37,9 +44,18 @@ body {
  **                           - Banner Styles -                            **
  ***************************************************************************/
 
-#banner {
-	margin: 0;
-	padding: 0;
+#main #banner {
+	padding: 0 3em;
+}
+
+
+/****************************************************************************
+ **                           - Search Styles -                            **
+ ***************************************************************************/
+
+#search {
+	float: left;
+	width: 16em;
 }
 
 
@@ -47,26 +63,45 @@ body {
  **                           - Content Styles -                           **
  ***************************************************************************/
 
-#content p {
-	margin-bottom: 0.75em;
-}
-
-#content {
+#main #content {
 	text-align: justify;
+	margin-top: 2em;
+	position: relative;
+	margin-left: 17em;
 }
 
 
-/****************************************************************************
- **                         - Navigation Styles -                          **
- ***************************************************************************/
+/***********************************************************
+* Navigation Styles                                        *
+***********************************************************/
+
+#navigation {
+	position: absolute;
+	top: -1.25em;
+	left: 3em;
+}
 
 #navigation ul {
 	list-style: none;
 }
 
-#navigation ul li {
+#navigation li {
 	float: left;
+	padding: 0 0.5em;
+	margin: 0 0.25em;
+	text-align: center;
 	border: 1px solid black;
+	background-color: #C0E0FF;
+	border-radius: 0.5em 0.5em 0 0;
+}
+
+#navigation li:hover {
+	background-color: #80C0FF;
+}
+
+#navigation #current {
+	background-color: #C0E0FF;
+	border-bottom-color: #C0E0FF;
 }
 
 
@@ -74,6 +109,11 @@ body {
  **                           - Footer Styles -                            **
  ***************************************************************************/
 
+#footer {
+	clear: both;
+}
+
 #footer p {
+	text-align: center;
 	font-size: 9pt;
 }
