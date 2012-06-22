@@ -24,8 +24,7 @@ a {
  ***************************************************************************/
 
 #main {
-	width: 65em;
-	margin: 1em auto;
+	margin: 1em;
 }
 
 #main > div.segment {
@@ -81,11 +80,11 @@ a {
 	left: 3em;
 }
 
-#navigation ul {
+#navigation > ul {
 	list-style: none;
 }
 
-#navigation li {
+#navigation > ul > li {
 	float: left;
 	padding: 0 0.5em;
 	margin: 0 0.25em;
@@ -95,7 +94,7 @@ a {
 	border-radius: 0.5em 0.5em 0 0;
 }
 
-#navigation li:hover {
+#navigation > ul > li:hover {
 	background-color: #80C0FF;
 }
 
