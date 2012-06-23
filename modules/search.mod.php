@@ -1,6 +1,8 @@
 <form>
 	<p>
 		<label>Search!</label>
-		<input type="text" size="10">
+	</p>
+	<p>
+		<input type="text">
 	</p>
 </form>

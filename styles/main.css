@@ -5,46 +5,38 @@
 * {
 	margin: 0;
 	padding: 0;
-	line-height: 1.125em;
-	font-family: Ubuntu, sans-serif;
+	font-family: Ubuntu;
 }
 
 body {
 	font-size: 11pt;
-	background-color: #0080FF;
-}
-
-a {
-	text-decoration: none;
 }
 
 
 /****************************************************************************
- **                             - Div Styles -                             **
+ **                            - Main Styles -                             **
  ***************************************************************************/
 
-#main {
+#main p {
 	margin: 1em;
 }
 
-#main > div.segment {
-	margin: 1em 0;
-	border: 1px solid #000;
-	border-radius: 1em;
+#main > div {
+	margin: 1em;
 	background-color: #C0E0FF;
-}
-
-#main > div p {
-	margin: 1em 3em;
+	border: 1px solid black;
+	border-radius: 1em;
+	box-shadow: 0 0 1em 0;
 }
 
 
 /****************************************************************************
- **                           - Banner Styles -                            **
+ **                          - Container Styles -                          **
  ***************************************************************************/
 
-#main #banner {
-	padding: 0 3em;
+#main #container {
+	margin-top: 40px;
+	position: relative;
 }
 
 
@@ -54,7 +46,11 @@ a {
 
 #search {
 	float: left;
-	width: 16em;
+	width: 15em;
+}
+
+#search input[type="text"] {
+	width: 10em;
 }
 
 
@@ -62,22 +58,23 @@ a {
  **                           - Content Styles -                           **
  ***************************************************************************/
 
-#main #content {
-	text-align: justify;
-	margin-top: 2em;
-	position: relative;
-	margin-left: 17em;
+#content {
+	margin-left: 15em;
+	border-left: 1px solid black;
 }
 
+#content p {
+	text-align: justify;
+}
 
-/***********************************************************
-* Navigation Styles                                        *
-***********************************************************/
+/**
+ * Navigation Styles
+ */
 
 #navigation {
 	position: absolute;
-	top: -1.25em;
-	left: 3em;
+	top: -20px;
+	left: 15em;
 }
 
 #navigation > ul {
@@ -86,20 +83,15 @@ a {
 
 #navigation > ul > li {
 	float: left;
-	padding: 0 0.5em;
-	margin: 0 0.25em;
-	text-align: center;
+	margin-right: 1em;
+	padding: 0 1em;
+	height: 18px;
 	border: 1px solid black;
 	background-color: #C0E0FF;
 	border-radius: 0.5em 0.5em 0 0;
 }
 
-#navigation > ul > li:hover {
-	background-color: #80C0FF;
-}
-
-#navigation #current {
-	background-color: #C0E0FF;
+#navigation > ul > li#current {
 	border-bottom-color: #C0E0FF;
 }
 
