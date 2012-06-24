@@ -10,6 +10,7 @@
 
 body {
 	font-size: 11pt;
+	background-color: #003264;
 }
 
 
@@ -17,7 +18,7 @@ body {
  **                            - Main Styles -                             **
  ***************************************************************************/
 
-#main p {
+#main p, #main img {
 	margin: 1em;
 }
 
