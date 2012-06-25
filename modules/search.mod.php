@@ -1,8 +1,8 @@
-<form>
+<form action="" method="get">
 	<p>
 		<label>Search!</label>
 	</p>
 	<p>
-		<input type="text">
+		<input type="text" />
 	</p>
 </form>

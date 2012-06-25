@@ -1,4 +1,4 @@
 <?php global $myPath; ?>
 <a href="<?php echo $myPath; ?>">
-	<img src="styles/logo.png" alt="Dimentions">
+	<img src="styles/logo.png" alt="Dimentions" />
 </a>

@@ -14,11 +14,6 @@ $roleplays = $rpselect->latest();
 
 ?>
 <table>
-	<tr>
-<?php foreach ($roleplays[0] as $key => $value) { ?>
-		<th><?php echo $key; ?></th>
-<?php } ?>
-	</tr>
 <?php foreach ($roleplays as $rp) { ?>
 	<tr>
 <?php 	foreach ($rp as $value) { ?>
