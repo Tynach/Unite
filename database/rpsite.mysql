@@ -1,0 +1,683 @@
+####################################
+#Global Tables (used in many spots)#
+####################################
+
+CREATE TABLE ratings (
+	rating_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	rating VARCHAR(10) NOT NULL,
+	age TINYINT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (rating_id),
+	UNIQUE INDEX (rating)
+) ENGINE = InnoDB;
+
+CREATE TABLE tags (
+	tag_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	tag VARCHAR(20) NOT NULL,
+
+	PRIMARY KEY (tag_id),
+	UNIQUE INDEX (tag)
+) ENGINE = InnoDB;
+
+CREATE TABLE implied_tags (
+	tag_id INT UNSIGNED NOT NULL,
+	implied_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (tag_id, implied_id),
+	FOREIGN KEY (tag_id) REFERENCES tags (tag_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (implied_id) REFERENCES tags (tag_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE tag_aliases (
+	alias VARCHAR(20) NOT NULL,
+	tag_id INT UNSIGNED NOT NULL,
+
+	UNIQUE INDEX (alias),
+	FOREIGN KEY (tag_id) REFERENCES tags (tag_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE tag_ratings ( #Some tags should not be mixed with some ratings.
+	tag_id INT UNSIGNED NOT NULL,
+	rating_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (tag_id),
+	FOREIGN KEY (tag_id) REFERENCES tags (tag_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (rating_id) REFERENCES ratings (rating_id)
+	#^If there are tags using the rating, don't let anyone delete it.
+) ENGINE = InnoDB;
+
+CREATE TABLE privs ( #List of all privileges
+	priv_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	priv_name VARCHAR(20) NOT NULL,
+
+	PRIMARY KEY (priv_id),
+	UNIQUE INDEX (priv_name)
+) ENGINE = InnoDB;
+
+
+###############
+#User Creation#
+###############
+
+CREATE TABLE users (
+	user_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	username VARCHAR(20) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	birthday DATE NOT NULL,
+	joined DATE NOT NULL,
+
+	PRIMARY KEY (user_id),
+	UNIQUE INDEX (username)
+) ENGINE = InnoDB;
+
+CREATE TABLE logins (
+	user_id INT UNSIGNED NOT NULL,
+	password CHAR(40) NOT NULL,
+
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+
+###############
+#User settings#
+###############
+
+CREATE TABLE settings (
+	user_id INT UNSIGNED NOT NULL,
+	time_zone FLOAT NOT NULL,
+	dst ENUM('auto', 'yes', 'no') NOT NULL,
+	show_age ENUM('yes', 'no') NOT NULL,
+	show_dob ENUM('no', 'yes') NOT NULL,
+	show_email ENUM('no', 'yes') NOT NULL,
+	invisible ENUM('no', 'yes') NOT NULL,
+	fname VARCHAR(20),
+	lname VARCHAR(20),
+
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE signatures (
+	user_id INT UNSIGNED NOT NULL,
+	signature TINYTEXT NOT NULL,
+
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE rating_settings (
+	user_id INT UNSIGNED NOT NULL,
+	rating_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (user_id, rating_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (rating_id) REFERENCES ratings (rating_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+#Contact Info
+
+CREATE TABLE contact_types (
+	type_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(20) NOT NULL, #Yahoo, Google+, Facebook...
+
+	PRIMARY KEY (type_id),
+	UNIQUE INDEX (name)
+) ENGINE = InnoDB;
+
+CREATE TABLE contact_info (
+	user_id INT UNSIGNED NOT NULL,
+	type_id INT UNSIGNED NOT NULL,
+	cont_value VARCHAR(100) NOT NULL,
+
+	PRIMARY KEY (user_id, type_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (type_id) REFERENCES contact_types (type_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+#User warning/disabling/banning
+
+CREATE TABLE warn_levels (
+	level_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	level_type VARCHAR(20) NOT NULL,
+
+	PRIMARY KEY (level_id),
+	UNIQUE INDEX (level_type)
+) ENGINE = InnoDB;
+
+CREATE TABLE warned_users (
+	user_id INT UNSIGNED NOT NULL,
+	level_id INT UNSIGNED,
+
+	PRIMARY KEY (user_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (level_id) REFERENCES warn_levels (level_id)
+		ON DELETE SET NULL
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+#Moderators with privileges over users
+
+CREATE TABLE user_privs (
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (priv_id),
+	FOREIGN KEY (priv_id) REFERENCES privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE user_mods (
+	user_id INT UNSIGNED NOT NULL,
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (user_id, priv_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (priv_id) REFERENCES user_privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE behavior (
+	record_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	user_id INT UNSIGNED NOT NULL,
+	note VARCHAR(100) NOT NULL,
+	moderator INT UNSIGNED,
+	dealt DATETIME NOT NULL,	#The date/time it was 'dealt with'.
+	value INT NOT NULL,
+						#'value' is usually +/- 1.
+						#It indicates whether or
+	PRIMARY KEY (record_id),		#not the record is a good
+	FOREIGN KEY (user_id) REFERENCES users (user_id)#or bad mark on their
+		ON DELETE CASCADE		#behavior (users can make
+		ON UPDATE CASCADE,		#up for bad behavior).
+	FOREIGN KEY (moderator) REFERENCES user_mods (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+
+################################
+#Private Messages/friend groups#
+################################
+
+CREATE TABLE priv_msgs (
+	msg_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	sender_id INT UNSIGNED NOT NULL,
+	reciever_id INT UNSIGNED NOT NULL,
+	title VARCHAR(100) NOT NULL,
+	content TEXT NOT NULL,
+	sent DATETIME NOT NULL,
+
+	PRIMARY KEY (msg_id),
+	FOREIGN KEY (sender_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (reciever_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+#Private Message moderators - DO NOT GIVE THESE PRIVILEGES TO JUST ANYONE
+#Private messages are meant to be PRIVATE. This is only for those cases where
+#you think perhaps illegal activity is going on, and you HAVE to scour through
+#a few messages. So, these tables are going to be commented out by default.
+
+/*CREATE TABLE pm_privs (
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (priv_id),
+	FOREIGN KEY (priv_id) REFERENCES privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE pm_mods (
+	user_id INT UNSIGNED NOT NULL,
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (user_id, priv_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (priv_id) REFERENCES pm_privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;*/
+
+#Friends and Groups - works similarly to Google+ 'Circles'
+#Note: I don't let any moderators view these, because how people classify other
+#people is their own business.
+
+CREATE TABLE groups (
+	grp_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	user_id INT UNSIGNED NOT NULL,
+	grp_name VARCHAR(20) NOT NULL,
+
+	PRIMARY KEY (grp_id),
+	UNIQUE INDEX (user_id, grp_name),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE friends (
+	grp_id INT UNSIGNED NOT NULL,
+	user_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (grp_id, user_id),
+	FOREIGN KEY (grp_id) REFERENCES groups (grp_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+
+#######
+#Clubs#
+#######
+
+CREATE TABLE clubs (
+	club_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	owner_id INT UNSIGNED NOT NULL,
+	rating_id INT UNSIGNED NOT NULL,
+	name VARCHAR(100) NOT NULL,
+	description TEXT NOT NULL,
+	created DATETIME NOT NULL,
+
+	PRIMARY KEY (club_id),
+	UNIQUE INDEX (name),
+	FOREIGN KEY (owner_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (rating_id) REFERENCES ratings (rating_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE club_members (
+	club_id INT UNSIGNED NOT NULL,
+	user_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (club_id, user_id),
+	FOREIGN KEY (club_id) REFERENCES clubs (club_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+#Club Message Boards - simple forums
+
+CREATE TABLE club_topics (
+	topic_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	club_id INT UNSIGNED NOT NULL,
+	user_id INT UNSIGNED NOT NULL,
+	created DATETIME NOT NULL,
+	name VARCHAR(100) NOT NULL,
+
+	PRIMARY KEY (topic_id),
+	FOREIGN KEY (club_id, user_id) REFERENCES club_members (club_id, user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE club_posts (
+	post_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	topic_id INT UNSIGNED NOT NULL,
+	club_id INT UNSIGNED NOT NULL,
+	user_id INT UNSIGNED NOT NULL,
+	created DATETIME NOT NULL,
+	content TEXT NOT NULL,
+
+	PRIMARY KEY (post_id),
+	FOREIGN KEY (topic_id, club_id) REFERENCES club_topics (topic_id, club_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (club_id, user_id) REFERENCES club_members (club_id, user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+#Club Moderators
+
+CREATE TABLE club_privs (
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (priv_id),
+	FOREIGN KEY (priv_id) REFERENCES privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE club_member_mods (
+	club_id INT UNSIGNED NOT NULL,
+	user_id INT UNSIGNED NOT NULL,
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (club_id, user_id, priv_id),
+	FOREIGN KEY (club_id, user_id) REFERENCES club_members (club_id, user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (priv_id) REFERENCES club_privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE club_global_mods (
+	user_id INT UNSIGNED NOT NULL,
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (user_id, priv_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (priv_id) REFERENCES club_privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+
+####################
+#Character Creation#
+####################
+
+CREATE TABLE characters (
+	char_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	user_id INT UNSIGNED NOT NULL,
+	name VARCHAR(100) NOT NULL,
+	description TEXT NOT NULL,
+	created DATETIME NOT NULL,
+	rating_id INT UNSIGNED,
+	searchable ENUM('yes', 'no') NOT NULL,
+
+	PRIMARY KEY (char_id),
+	UNIQUE INDEX (user_id, name),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (rating_id) REFERENCES ratings (rating_id)
+		ON DELETE SET NULL
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE char_tags (
+	char_id INT UNSIGNED NOT NULL,
+	tag_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (char_id, tag_id),
+	FOREIGN KEY (char_id) REFERENCES characters (char_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (tag_id) REFERENCES tags (tag_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE char_images (
+	img_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	char_id INT UNSIGNED NOT NULL,
+	file VARCHAR(44) NOT NULL,
+	filename VARCHAR(100) NOT NULL,
+	rating_id INT UNSIGNED,
+
+	PRIMARY KEY (img_id),
+	FOREIGN KEY (char_id) REFERENCES characters (char_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (rating_id) REFERENCES ratings (rating_id)
+		ON DELETE SET NULL
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+#Character Permissions
+
+CREATE TABLE char_privs (
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (priv_id),
+	FOREIGN KEY (priv_id) REFERENCES privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE char_lending (
+	char_id INT UNSIGNED NOT NULL,
+	user_id INT UNSIGNED NOT NULL,
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (char_id, user_id, priv_id),
+	FOREIGN KEY (char_id) REFERENCES characters (char_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (priv_id) REFERENCES char_privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE char_mods (
+	user_id INT UNSIGNED NOT NULL,
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (user_id, priv_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (priv_id) REFERENCES char_privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE char_club (		#Characters can be given to clubs for
+	char_id INT UNSIGNED NOT NULL,	#full or limited use by the club's
+	club_id INT UNSIGNED NOT NULL,	#members.
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (char_id, club_id, priv_id),
+	FOREIGN KEY (char_id) REFERENCES characters (char_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (club_id) REFERENCES clubs (club_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (priv_id) REFERENCES char_privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+
+###########
+#Universes#
+###########
+
+CREATE TABLE universes (
+	univ_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	user_id INT UNSIGNED NOT NULL,
+	name VARCHAR(50) NOT NULL,
+	rating_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (univ_id),
+	UNIQUE INDEX (user_id, name),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (rating_id) REFERENCES ratings (rating_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE univ_pages (
+	page_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	univ_id INT UNSIGNED NOT NULL,
+	content TEXT NOT NULL,
+	style TEXT,
+
+	PRIMARY KEY (page_id),
+	FOREIGN KEY (univ_id) REFERENCES universes (univ_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE univ_tags (
+	univ_id INT UNSIGNED NOT NULL,
+	tag_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (univ_id, tag_id),
+	FOREIGN KEY (univ_id) REFERENCES universes (univ_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (tag_id) REFERENCES tags (tag_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+
+###########
+#Roleplays#
+###########
+
+CREATE TABLE roleplays (
+	rp_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	user_id INT UNSIGNED NOT NULL,
+	name VARCHAR(50) NOT NULL,
+	rating_id INT UNSIGNED NOT NULL,
+	description TEXT NOT NULL,
+	open ENUM('yes', 'no') NOT NULL,
+	public ENUM('yes', 'no') NOT NULL,
+	created DATE NOT NULL,
+	modified TIMESTAMP,
+
+	PRIMARY KEY (rp_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (rating_id) REFERENCES ratings (rating_id)
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE rp_join_req (
+	rp_id INT UNSIGNED NOT NULL,
+	user_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (rp_id, user_id),
+	FOREIGN KEY (rp_id) REFERENCES roleplays (rp_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE rp_members (
+	rp_id INT UNSIGNED NOT NULL,
+	user_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (rp_id, user_id),
+	FOREIGN KEY (rp_id) REFERENCES roleplays (rp_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE rp_tags (
+	rp_id INT UNSIGNED NOT NULL,
+	tag_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (rp_id, tag_id),
+	FOREIGN KEY (rp_id) REFERENCES roleplays (rp_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (tag_id) REFERENCES tags (tag_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+
+#######
+#Posts#
+#######
+
+CREATE TABLE rp_posts (
+	post_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	user_id INT UNSIGNED NOT NULL,
+	rp_id INT UNSIGNED NOT NULL,
+	content TEXT NOT NULL,
+	ooc ENUM('no', 'yes') NOT NULL,
+
+	PRIMARY KEY (post_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (rp_id) REFERENCES roleplays (rp_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE post_chars (
+	post_id INT UNSIGNED NOT NULL,
+	char_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (post_id, char_id),
+	FOREIGN KEY (post_id) REFERENCES rp_posts (post_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (char_id) REFERENCES characters (char_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+
+#######################
+#Global Administration#
+#######################
+
+#Warning: Users given privileges globally are VERY POWERFUL. It is quite
+#possible for them to attempt to take over the site, entirely. YOU SHOULD TRUST
+#THEM ULTIMATELY.
+
+CREATE TABLE global_admins (
+	user_id INT UNSIGNED NOT NULL,
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (user_id, priv_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (priv_id) REFERENCES privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;

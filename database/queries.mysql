@@ -1,0 +1,53 @@
+/*This will perform a search. It does not yet take into account people who have
+privileges to access certain roleplays, but I'm kinda doubting such a feature
+would really be necessary.*/
+
+SELECT
+	rp.rp_id AS `ID`,
+	u.username AS `Creator`,
+	rp.name AS `Name`,
+	rp.created AS `Date`,
+	COUNT(rt.tag_id) AS `Relevance`,
+	GROUP_CONCAT(
+		t.tag
+		ORDER BY
+			t.tag
+		SEPARATOR ', '
+	) AS `Tags`
+FROM
+	roleplays rp
+	LEFT JOIN
+		rp_tags rt
+		ON (
+			rp.rp_id = rt.rp_id
+		)
+	LEFT JOIN
+		tags t
+		ON (
+			rt.tag_id = t.tag_id
+		)
+	LEFT JOIN
+		rating_settings rs
+		ON (
+			rp.rating_id = rs.rating_id AND
+			rs.user_id = 3 #User performing the search
+		)
+	LEFT JOIN
+		users u
+		ON (
+			rp.user_id = u.user_id
+		)
+WHERE
+	rp.public = 'yes' AND
+	t.tag IN ( #List of tags to search for
+		'Science Fiction',
+		'Multiverse',
+		'Vegetables',
+		'Romance'
+	)
+GROUP BY
+	rt.rp_id
+ORDER BY
+	Relevance DESC,
+	Tags ASC,
+	rp.rp_id DESC;

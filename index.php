@@ -4,7 +4,29 @@ include('unite.inc.php');
 $page = new page('templates/main.htmt');
 $page->title = 'Home';
 
+if (isset($_SESSION['username'])) {
+	$rpselect = new selectRoleplaysUser();
+} else {
+	$rpselect = new selectRoleplaysAnon();
+}
+
+$roleplays = $rpselect->latest();
+
 ?>
+<table>
+	<tr>
+<?php foreach ($roleplays[0] as $key => $value) { ?>
+		<th><?php echo $key; ?></th>
+<?php } ?>
+	</tr>
+<?php foreach ($roleplays as $rp) { ?>
+	<tr>
+<?php 	foreach ($rp as $value) { ?>
+		<td><?php echo $value; ?></td>
+<?php 	} ?>
+	</tr>
+<?php } ?>
+</table>
 <p>
 	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur placerat sem et neque dictum egestas. Curabitur sodales augue a nunc lacinia molestie. Vivamus id turpis eu dui fermentum rhoncus at ac nibh. Donec sit amet neque blandit risus dapibus aliquet. Vivamus enim purus, rutrum quis luctus id, dapibus nec nisi. Integer sed porttitor est. Proin sem odio, sodales eu consequat ut, tempor et neque. Nullam id purus leo. Fusce quam mauris, aliquam euismod tristique nec, tincidunt quis justo. In a lorem vitae ante ornare luctus.
 </p>

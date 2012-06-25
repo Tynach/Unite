@@ -1,0 +1,102 @@
+DELIMITER $
+
+###########
+#Functions#
+###########
+
+#Converts a rating into a rating_id
+CREATE FUNCTION rate2rid(rate VARCHAR(10))
+RETURNS INT UNSIGNED
+BEGIN
+	RETURN (SELECT rating_id FROM ratings WHERE rating = rate);
+END$
+
+#Converts a tag into a tag_id
+CREATE FUNCTION t2tid(t VARCHAR(20))
+RETURNS INT UNSIGNED
+BEGIN
+	RETURN (SELECT tag_id FROM tags WHERE tag = t);
+END$
+
+#Converts a username into a user_id
+CREATE FUNCTION uname2uid(uname VARCHAR(20))
+RETURNS INT UNSIGNED
+BEGIN
+	RETURN (SELECT user_id FROM users WHERE username = uname);
+END$
+
+#Converts a contact type into a type_id
+CREATE FUNCTION contype2tid(contype VARCHAR(20))
+RETURNS INT UNSIGNED
+BEGIN
+	RETURN (SELECT type_id FROM contact_types WHERE name = contype);
+END$
+
+#Selects a grp_id based on group name, and username
+CREATE FUNCTION gidselect(uname VARCHAR(20), grpname VARCHAR(20))
+RETURNS INT UNSIGNED
+BEGIN
+	RETURN (SELECT grp_id FROM groups WHERE user_id = uname2uid(uname) AND grp_name = grpname);
+END$
+
+#Returns the age of a username
+CREATE FUNCTION uname2age(uname VARCHAR(20))
+RETURNS INT UNSIGNED
+BEGIN
+	RETURN (SELECT DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(birthday, '00-%m-%d')) FROM users WHERE username = uname);
+END$
+
+#Returns the age of a user_id
+CREATE FUNCTION uid2age(uid INT UNSIGNED)
+RETURNS INT UNSIGNED
+BEGIN
+	RETURN (SELECT DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') < DATE_FORMAT(birthday, '00-%m-%d')) FROM users WHERE user_id = uid);
+END$
+
+#Uses a username and character name to select a char_id
+CREATE FUNCTION cidselect(uname VARCHAR(20), cname VARCHAR(100))
+RETURNS INT UNSIGNED
+BEGIN
+	RETURN (SELECT char_id FROM characters WHERE user_id = uname2uid(uname) AND name = cname);
+END$
+
+#Converts a Universe name into a univ_id
+CREATE FUNCTION unividselect(uname VARCHAR(20), univ VARCHAR(50))
+RETURNS INT UNSIGNED
+BEGIN
+	RETURN (SELECT univ_id FROM universes WHERE user_id = uname2uid(uname) AND name = univ);
+END$
+
+#Converts a priviledge name into a priv_id
+CREATE FUNCTION pname2pid(priv VARCHAR(20))
+RETURNS INT UNSIGNED
+BEGIN
+	RETURN (SELECT priv_id FROM privs WHERE priv_name = priv);
+END$
+
+
+############
+#Procedures#
+############
+
+#Stuff
+
+
+##########
+#Triggers#
+##########
+
+CREATE TRIGGER create_settings AFTER INSERT ON users
+	FOR EACH ROW BEGIN
+		INSERT INTO settings VALUES (NEW.user_id, -6, 'auto', 'yes', 'no', 'no', 'no', NULL, NULL);
+		INSERT INTO rating_settings SELECT NEW.user_id, rating_id FROM ratings WHERE age <= uid2age(NEW.user_id) AND age < 18;
+	END;
+$
+
+CREATE TRIGGER rating_create AFTER INSERT ON ratings
+	FOR EACH ROW BEGIN
+		INSERT INTO rating_settings SELECT user_id, NEW.rating_id FROM users WHERE NEW.age <= uid2age(user_id) AND NEW.age < 18;
+	END;
+$
+
+DELIMITER ;

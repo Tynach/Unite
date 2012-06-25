@@ -1,0 +1,247 @@
+################
+#General Tables#
+################
+
+INSERT INTO ratings VALUES
+(NULL, 'G', 0),
+(NULL, 'PG', 8),
+(NULL, 'PG-13', 13),
+(NULL, 'R', 16),
+(NULL, 'NC-17', 18),
+(NULL, 'XXX', 18);
+
+INSERT INTO tags VALUES
+(NULL, 'Magic'),
+(NULL, 'Time Machine'),
+(NULL, 'Science Fiction'),
+(NULL, 'Fantasy'),
+(NULL, 'Mild Violence'),
+(NULL, 'Extreme Violence'),
+(NULL, 'Violence'),
+(NULL, 'Anime'),
+(NULL, 'Space Travel'),
+(NULL, 'Multiverse'),
+(NULL, 'Furry'),
+(NULL, 'Vegetables'),
+(NULL, 'Cyberpunk'),
+(NULL, 'Romance');
+
+INSERT INTO implied_tags VALUES
+(t2tid('Extreme Violence'), t2tid('Violence')),
+(t2tid('Mild Violence'), t2tid('Violence')),
+(t2tid('Time Machine'), t2tid('Science Fiction')),
+(t2tid('Magic'), t2tid('Fantasy'));
+
+INSERT INTO tag_ratings VALUES
+(t2tid('Extreme Violence'), rate2rid('R')),
+(t2tid('Violence'), rate2rid('PG-13'));
+
+INSERT INTO privs VALUES
+(NULL, 'Delete'),
+(NULL, 'Ban'),
+(NULL, 'Disable'),
+(NULL, 'Warn'),
+(NULL, 'Edit'),
+(NULL, 'Post'),
+(NULL, 'Read');
+
+
+#######
+#Users#
+#######
+
+INSERT INTO users VALUES
+(NULL, 'Tynach', 'tynach2@gmail.com', '1990-08-18', CURDATE()),
+(NULL, 'Phil', 'waclawski@mesacc.edu', '1966-03-31', CURDATE()),
+(NULL, 'Blended', 'n00bh31p@yahoo.com', '1995-07-12', CURDATE()),
+(NULL, 'purpleflowers', 'pf.c00l@yahoo.com', '1999-07-24', CURDATE()),
+(NULL, 'Fox', 'headmaster_fox@gmail.com', '1990-09-17', CURDATE());
+
+INSERT INTO logins VALUES
+(uname2uid('Tynach'), SHA1('Password')),
+(uname2uid('Phil'), SHA1('Pesky Peanut Flower')),
+(uname2uid('Blended'), SHA1('12345')),
+(uname2uid('purpleflowers'), SHA1('l1k3c00ln355')),
+(uname2uid('Fox'), SHA1('Kittens'));
+
+
+##############
+#Contact Info#
+##############
+
+INSERT INTO contact_types VALUES
+(NULL, 'Yahoo IM'),
+(NULL, 'MSN IM'),
+(NULL, 'AOL IM'),
+(NULL, 'GTalk'),
+(NULL, 'Skype'),
+(NULL, 'Facebook');
+
+INSERT INTO contact_info VALUES
+(uname2uid('Tynach'), contype2tid('Yahoo IM'), 'tynach2'),
+(uname2uid('Tynach'), contype2tid('MSN IM'), 'tynach2@gmail.com'),
+(uname2uid('Tynach'), contype2tid('AOL IM'), 'tynach2@gmail.com'),
+(uname2uid('Tynach'), contype2tid('Skype'), 'tynach2'),
+(uname2uid('Phil'), contype2tid('AOL IM'), 'linux_philw'),
+(uname2uid('Fox'), contype2tid('Yahoo IM'), 'headmaster_fox'),
+(uname2uid('Fox'), contype2tid('MSN IM'), 'fox_mcfox@hotmail.com');
+
+
+###############
+#Deleted Users#
+###############
+
+INSERT INTO warn_levels VALUES
+(NULL, 'frozen'),
+(NULL, 'hidden'),
+(NULL, 'processing'),
+(NULL, 'silenced'),
+(NULL, 'suspended');
+
+
+######################
+#Messages and Friends#
+######################
+
+INSERT INTO priv_msgs VALUES
+(NULL, uname2uid('Blended'), uname2uid('Tynach'), 'Can you help me with Blender?', 'I really need help with blender. What do you do to get out of edit mode?'),
+(NULL, uname2uid('Tynach'), uname2uid('Blended'), 'Can you help me with Blender?', 'Tab gets you into, and out of, edit mode. Though I\'d really recommend you signing up on Blenderartists.org to ask these questions - this site is for roleplaying.'),
+(NULL, uname2uid('Phil'), uname2uid('Tynach'), 'Final Project', 'When will you have your final project done?'),
+(NULL, uname2uid('Tynach'), uname2uid('Phil'), 'Final Project', 'Well, uhm...');
+
+INSERT INTO groups VALUES
+(NULL, uname2uid('Tynach'), 'Wonderful'),
+(NULL, uname2uid('Tynach'), 'Annoying'),
+(NULL, uname2uid('Phil'), 'Students'),
+(NULL, uname2uid('Blended'), 'I Can Hear You');
+
+INSERT INTO friends VALUES
+(gidselect('Tynach', 'Wonderful'), uname2uid('Phil')),
+(gidselect('Tynach', 'Annoying'), uname2uid('Blended')),
+(gidselect('Phil', 'Students'), uname2uid('Tynach')),
+(gidselect('Blended', 'I Can Hear You'), uname2uid('Tynach')),
+(gidselect('Blended', 'I Can Hear You'), uname2uid('Phil'));
+
+
+############
+#Characters#
+############
+
+INSERT INTO characters VALUES
+(NULL, uname2uid('Tynach'), 'Tynach', "Tynach is the First Speaker of the Interdimentional Police, an organization dedicated to the protection and control of travel between Universes.", rate2rid('PG'), 'yes'),
+(NULL, uname2uid('Tynach'), 'Drak', "Drak is the Second Speaker of the Interdimentional Police, an organization dedicated to the protection and control of travel between Universes.", rate2rid('PG'), 'yes'),
+(NULL, uname2uid('Blended'), 'Mary Sue', "Mary is the perfect girl, with the perfect life, and knows every fighting style ever.", rate2rid('G'), 'yes');
+
+INSERT INTO char_tags VALUES
+(cidselect('Tynach', 'Tynach'), t2tid('Science Fiction')),
+(cidselect('Tynach', 'Drak'), t2tid('Science Fiction')),
+(cidselect('Blended', 'Mary Sue'), t2tid('Science Fiction')),
+(cidselect('Blended', 'Mary Sue'), t2tid('Fantasy')),
+(cidselect('Blended', 'Mary Sue'), t2tid('Mild Violence'));
+
+
+###########
+#Universes#
+###########
+
+INSERT INTO universes VALUES
+(NULL, uname2uid('Tynach'), 'Observation', rate2rid('G')),
+(NULL, uname2uid('purpleflowers'), 'Perfect Land', rate2rid('G')),
+(NULL, uname2uid('Blended'), 'I dunno', rate2rid('G')),
+(NULL, uname2uid('Fox'), 'Background', rate2rid('PG-13'));
+
+INSERT INTO univ_pages VALUES
+(NULL, unividselect('Tynach', 'Observation'), 'Observation is a series about travel between multiple Universes. It explores ideas dealing with parallel Universes, time travel, and the ''observation'' of multiple dimensions - axes on which particles exist. Within the world of ''Observation'', parallel Universes are referred to as ''Dimentions'', with a ''T'', and directional axes are referred to as ''Dimensions'', the traditional spelling with an ''S''.', NULL),
+(NULL, unividselect('Fox', 'Background'), 'The story of Headmaster Fox.', NULL),
+(NULL, unividselect('Blended', 'I dunno'), 'I really don''t know.', NULL);
+
+INSERT INTO univ_tags VALUES
+(unividselect('Tynach', 'Observation'), t2tid('Science Fiction')),
+(unividselect('Tynach', 'Observation'), t2tid('Fantasy')),
+(unividselect('Blended', 'I dunno'), t2tid('Fantasy'));
+
+
+###########
+#Roleplays#
+###########
+
+INSERT INTO roleplays VALUES
+(NULL, uname2uid('Tynach'), 'Observation of Time', rate2rid('PG-13'), 'Time is a concept, an idea, which is at first easy to grasp. It can be split up into regular intervals, measured, and calculated.\n\nHumanity has grown up with time, and has adapted to it. Calendars, watches, years, months, weeks, days, hours, minutes, seconds... We understand what we perceive as Time. And as far as we can tell, it goes on forever... A never ending flow of steady time.\n\nAt least, from our perspective.\n\nTime is difficult, in that it is relative to our point of view. When observed, it appears to be constant - the intervals don''t change, and it flows as normal. So what if it were disrupted? What if time were... Stretched out, manipulated - skewed? We would never know, for we are limited within time and observe it with everyone else.\n\nTo know of such problems, one must observe time from outside of one''s own Universe - step into another dimension, and watch from ''above'', so to speak.\n\nBut just like the portrait of the young lady and old witch, it is sometimes difficult to easily see both realities at once... Until, of course, you add another dimension.\n\nAn extrusion of one reality to create another plane will often reveal these flaws - painting the picture in more detail, and - literally - adding depth to our perception.\n\nAnd that is what one team has done. They added depth to reality... And saw the war. The war that was destroying entire Universes night and day, every hour, every minute... Until time was wiped out, and with it all of creation.\n\nThis small team, ran and hid the results of their tests... Except for one of them. He decided to act on it, plan on it...\n\nAnd the Interdimentional Police, was born from it.\n\nOr so the story goes...\n\n\nThe last of the text appeared on the screen, and Tynach switched it off, leaning back in his chair. For him, it had been close to 100 years since he had joined the IDP, but he couldn''t remember.\n\nAccording to the stories, the pseudo legends... He had created it himself, and left the base as a starting point for future (and past, perhaps) generations of himself. But he never remembered doing so - despite gaining all the previous memories of all his previous selves. Scenario loops were dangerous in dimensional engineering, and he knew that - but he had perhaps pulled it off at some point.\n\nSighing again, he closed out of the program, and opened up what looked almost like a tree view - sorta like what you see in some file browsers on a computer, except every node, or ''folder'', was simply a number.\n\nAnd every few seconds, one would become empty.\n\nThey had given themselves infinite time, yet time was running out. And they still had no idea what they were dealing with.\n\nAn alert came up on the screen - another Universe was beginning to disintegrate - this time, it was...\n\nHis home. 505 branch, to be more precise.\n\nThe enemy worked on a pattern of destroying universes, systematically destroying ones with locations near major branches, to corrupt and spread to other areas... Usually undetected. But 505? 501 or even 500.1.1 is generally the pattern it follows.\n\nThe attack was done far from his home time, though - in the year 2525, where a local alien skirmish happened in Phoenix Square on Earth. Apparently, the enemy changed events... Making the skirmish more of a battle - which Earth lost.\n\nTynach grabs a back pack, changes into time relevant clothes... And teleports, to a back alley to Phoenix Square, Earth, in the year 2525.\n\nTime was running out.', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Blended'), 'Help me Im trying to use Blender', rate2rid('PG'), 'Hi does anyone know how to use Blender?', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Blended'), 'What is a rp?', rate2rid('G'), 'I know it stands for roleplay, but whats that?', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('purpleflowers'), 'BUY VIAGRA BUY VITAMAN Z FOR YOUR UNICORN HEALTH BUY RAINBOW SMASH FOR CHRONIC DEAD COW DISEASE', rate2rid('G'), 'BUY BUY BUY BUY BUY BUY BUY BUY BUY BUY BUY', 'no', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'Lord of the Beans', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'Circuits Bored', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'Cybermancer', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'My Other Self', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'Two Worlds', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'Zelda Universe', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'High School Days', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'Nuku Nuku Dash', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'The Werewolf Game', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'Dystopia', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'Chronicles of Enchantment', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'Warring Galaxies', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'First to Bribe the Architect', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL),
+(NULL, uname2uid('Tynach'), 'Fox Star', rate2rid('PG-13'), 'Testing', 'yes', 'yes', CURDATE(), NULL);
+
+#INSERT INTO rp_join_req
+#(); Was going to put stuff here, but I have no way to reliably choose the correct roleplay. There's no 'unique' or primary keys that identify it by anything but a single digit number - which is auto-incremented and not reliable. This can be handled by a web app just fine, but not by a human-readable insert.
+
+#Same for rp_members, rp_tags, rp_posts, and post_chars.
+
+INSERT INTO rp_tags VALUES
+(1, t2tid('Science Fiction')),
+(1, t2tid('Mild Violence')),
+(1, t2tid('Time Machine')),
+(1, t2tid('Multiverse')),
+(2, t2tid('Violence')),
+(5, t2tid('Fantasy')),
+(5, t2tid('Magic')),
+(5, t2tid('Mild Violence')),
+(5, t2tid('Vegetables')),
+(6, t2tid('Science Fiction')),
+(6, t2tid('Cyberpunk')),
+(6, t2tid('Violence')),
+(6, t2tid('Romance')),
+(7, t2tid('Science Fiction')),
+(7, t2tid('Cyberpunk')),
+(7, t2tid('Magic')),
+(8, t2tid('Science Fiction')),
+(8, t2tid('Time Machine')),
+(8, t2tid('Multiverse')),
+(8, t2tid('Romance')),
+(9, t2tid('Multiverse')),
+(9, t2tid('Furry')),
+(9, t2tid('Magic')),
+(9, t2tid('Mild Violence')),
+(10, t2tid('Fantasy')),
+(10, t2tid('Magic')),
+(10, t2tid('Mild Violence')),
+(10, t2tid('Romance')),
+(11, t2tid('Anime')),
+(11, t2tid('Romance')),
+(11, t2tid('Violence')),
+(12, t2tid('Anime')),
+(12, t2tid('Magic')),
+(12, t2tid('Romance')),
+(12, t2tid('Mild Violence')),
+(13, t2tid('Furry')),
+(13, t2tid('Extreme Violence')),
+(13, t2tid('Fantasy')),
+(14, t2tid('Anime')),
+(14, t2tid('Science Fiction')),
+(14, t2tid('Extreme Violence')),
+(15, t2tid('Magic')),
+(15, t2tid('Fantasy')),
+(15, t2tid('Violence')),
+(15, t2tid('Multiverse')),
+(16, t2tid('Science Fiction')),
+(16, t2tid('Extreme Violence')),
+(16, t2tid('Space Travel')),
+(17, t2tid('Time Machine')),
+(17, t2tid('Multiverse')),
+(17, t2tid('Vegetables')),
+(18, t2tid('Furry')),
+(18, t2tid('Space Travel')),
+(18, t2tid('Science Fiction'));

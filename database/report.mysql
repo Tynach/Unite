@@ -1,0 +1,25 @@
+CREATE VIEW list_roleplays AS
+	SELECT
+		rp.rp_id `rp_id`,
+		rp.name `Roleplay Name`,
+		u.username `Creator`,
+		r.rating `Rating`,
+		rp.open `Open for Public Registration`,
+		rp.searchable `Show in Searches`
+	FROM roleplays rp
+	LEFT JOIN users u
+		ON rp.user_id = u.user_id
+		LEFT JOIN ratings r
+			ON rp.rating_id = r.rating_id;
+
+CREATE VIEW list_messages AS
+	SELECT
+		pm.msg_id `msg_id`,
+		u.username `Sender`,
+		uu.username `Reciever`,
+		pm.title `Title`
+	FROM priv_msgs pm
+	LEFT JOIN users u
+		ON pm.sender = u.user_id
+		LEFT JOIN users uu
+			ON pm.reciever = uu.user_id;

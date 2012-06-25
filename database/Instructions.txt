@@ -1,0 +1,5 @@
+Run the files in this order:
+
+rpsite.mysql
+routine.mysql
+insert.mysql

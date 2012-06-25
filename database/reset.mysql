@@ -1,0 +1,6 @@
+DROP DATABASE dimentions;
+CREATE DATABASE dimentions;
+USE dimentions;
+\. rpsite.mysql
+\. routine.mysql
+\. insert.mysql

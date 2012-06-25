@@ -1,0 +1,72 @@
+ratings OK
+tags OK
+implied_tags OK
+tag_aliases OK
+tag_ratings OK
+privs OK
+
+
+users OK
+logins OK
+
+
+settings | | | | | NOT OK
+signatures OK | | | | Not sure if should be included.
+rating_settings OK
+
+contact_types OK
+contact_info OK | | | | Might need adjustment.
+
+warn_levels OK
+warned_users OK
+
+user_privs OK
+user_mods OK
+behavior OK | | | | Make sure to name the 'Delete' button "Nuke It From Orbit".
+
+
+priv_msgs OK
+#pm_privs
+#pm_mods
+
+groups OK
+friends OK
+
+
+clubs OK
+club_members OK
+
+club_topics OK
+club_posts OK
+
+club_privs OK
+club_member_mods OK
+club_global_mods OK
+
+
+characters OK ? ? ? ? ?
+char_tags OK
+char_images OK
+
+char_privs OK
+char_lending OK
+char_mods OK
+char_club OK
+
+
+universes
+univ_pages
+univ_tags
+
+
+roleplays
+rp_join_req
+rp_members
+rp_tags
+
+
+rp_posts
+post_chars
+
+
+global_admins
