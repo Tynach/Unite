@@ -37,7 +37,7 @@ clubs OK
 club_members OK
 
 club_topics OK
-club_posts OK
+club_posts | | | | | DOES NOT WORK D:
 
 club_privs OK
 club_member_mods OK

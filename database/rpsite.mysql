@@ -346,6 +346,7 @@ CREATE TABLE club_topics (
 	name VARCHAR(100) NOT NULL,
 
 	PRIMARY KEY (topic_id),
+	INDEX (topic_id, club_id),
 	FOREIGN KEY (club_id, user_id) REFERENCES club_members (club_id, user_id)
 		ON DELETE CASCADE
 		ON UPDATE CASCADE
