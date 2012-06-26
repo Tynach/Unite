@@ -22,9 +22,10 @@ abstract class container
 		if ($file) {
 			include($file);
 		}
-		do {
-			$content .= ob_get_contents();
-		} while (ob_end_clean());
+
+		$content .= ob_get_contents();
+		ob_end_clean();
+
 		return $content;
 	}
 
