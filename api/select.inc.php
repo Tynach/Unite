@@ -2,7 +2,7 @@
 
 interface selectRoleplays
 {
-	function latest();
+	function latest($db);
 }
 
 class selectRoleplaysAnon implements selectRoleplays
