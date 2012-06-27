@@ -7,7 +7,7 @@ interface selectRoleplays
 
 class selectRoleplaysAnon implements selectRoleplays
 {
-	function latest()
+	function latest($db)
 	{
 		$roleplays = Array(
 			Array(
@@ -32,7 +32,7 @@ class selectRoleplaysAnon implements selectRoleplays
 
 class selectRoleplaysUser implements selectRoleplays
 {
-	function latest()
+	function latest($db)
 	{
 		$roleplays = Array(
 			Array(

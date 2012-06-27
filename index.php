@@ -10,7 +10,7 @@ if (isset($_SESSION['username'])) {
 	$rpselect = new selectRoleplaysAnon();
 }
 
-$roleplays = $rpselect->latest();
+$roleplays = $rpselect->latest($db);
 
 ?>
 <table>

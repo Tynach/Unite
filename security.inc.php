@@ -3,13 +3,14 @@
 //Woo, filtering! This is actually a fairly robust class. You can define filters and regular expressions to go with them in the '$types' array, then it has a few generic methods that you use to check to see if a string validates based on those filters. It also keeps track of 'errors' (when things don't validate), so you can print out and tell people what it is they did horribly wrong.
 class filter
 {
-	private $types = array(
-		'username' => "/[a-z0-9.\-_]{1,20}/i",
-		'email' => '/.+@.+/i',
-		'password' => "/[a-z0-9\-_' ?!.@&%\^]{6,64}/i"
-	);
+	private $types = array();
 	public $errors = array();
 	public $vars = array();
+
+	public function add_filters($array)
+	{
+		$this->types = array_merge($this->types, (array)$array);
+	}
 
 	public function print_errors()
 	{
@@ -55,6 +56,14 @@ class filter
 	}
 }
 
+/*Example filter adding, where $filter is the object of the filter class
+$filter->add_filters(array(
+	'username' => "/[a-z0-9.\-_]{1,20}/i",
+	'email' => '/.+@.+/i',
+	'password' => "/[a-z0-9\-_' ?!.@&%\^]{6,64}/i"
+));
+*/
+
 //This is the basic connection class for the database. I initially had every single database call as a method in this class/object, but that was getting a bit... Big. It didn't work out too well, so instead I'm just sorta using it for error handling and auto-closing of the database.
 class connection
 {
@@ -97,6 +106,6 @@ class connection
 	}
 }
 
-//$db = new connection;
+$db = new connection('../dba/dba.php');
 
 ?>
