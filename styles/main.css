@@ -42,16 +42,57 @@ body {
 
 
 /****************************************************************************
+ **                           - Banner Styles -                            **
+ ***************************************************************************/
+
+#banner {
+	position: relative;
+}
+
+#login {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+/**
+ * Login Styles
+ */
+
+form {
+	display: table;
+	margin: 1em;
+}
+
+form > p {
+	display: table-row;
+}
+
+form > p > * {
+	display: table-cell;
+}
+
+form > p > label {
+	padding-right: 1em;
+}
+
+
+/****************************************************************************
  **                           - Search Styles -                            **
  ***************************************************************************/
 
 #search {
 	float: left;
-	width: 15em;
+	width: 13em;
+	padding: 1em;
 }
 
-#search input[type="text"] {
-	width: 10em;
+#search form {
+	margin: 0;
+}
+
+#search input {
+	width: 100%
 }
 
 

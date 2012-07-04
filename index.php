@@ -9,9 +9,8 @@ if (isset($_SESSION['username'])) {
 } else {
 	$rpselect = new selectRoleplaysAnon();
 }
-
-$roleplays = $rpselect->latest($db);
-
+try {
+	$roleplays = $rpselect->latest($db);
 ?>
 <table>
 <?php foreach ($roleplays as $rp) { ?>
@@ -22,6 +21,14 @@ $roleplays = $rpselect->latest($db);
 	</tr>
 <?php } ?>
 </table>
+<?php } catch (exception $e) { ?>
+<p>
+	Database connection failed.
+</p>
+<code>
+	<?php print_r($e); ?>
+</code>
+<?php } ?>
 <p>
 	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur placerat sem et neque dictum egestas. Curabitur sodales augue a nunc lacinia molestie. Vivamus id turpis eu dui fermentum rhoncus at ac nibh. Donec sit amet neque blandit risus dapibus aliquet. Vivamus enim purus, rutrum quis luctus id, dapibus nec nisi. Integer sed porttitor est. Proin sem odio, sodales eu consequat ut, tempor et neque. Nullam id purus leo. Fusce quam mauris, aliquam euismod tristique nec, tincidunt quis justo. In a lorem vitae ante ornare luctus.
 </p>

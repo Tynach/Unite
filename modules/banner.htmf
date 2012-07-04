@@ -2,3 +2,15 @@
 <a href="<?php echo $myPath; ?>">
 	<img src="styles/logo.png" alt="Dimentions" />
 </a>
+<div id="login">
+	<form method="post" action="control/login.php">
+		<p>
+			<label>Username</label>
+			<input type="text" name="username" />
+		</p>
+		<p>
+			<label>Password</label>
+			<input type="password" name="password" />
+		</p>
+	</form>
+</div>
