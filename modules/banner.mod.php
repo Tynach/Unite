@@ -7,8 +7,7 @@
 	<p>
 		Welcome, <?php echo $_SESSION['username']; ?>!
 	</p>
-</div>
-<?php } else { ?>
+</div><?php } else { ?>
 <div id="login">
 	<form method="post" action="login.php">
 		<p>
@@ -23,5 +22,4 @@
 			<input type="submit" />
 		</p>
 	</form>
-</div>
-<?php } ?>
+</div><?php } ?>
