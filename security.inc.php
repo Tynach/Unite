@@ -64,48 +64,20 @@ $filter->add_filters(array(
 ));
 */
 
-//This is the basic connection class for the database. I initially had every single database call as a method in this class/object, but that was getting a bit... Big. It didn't work out too well, so instead I'm just sorta using it for error handling and auto-closing of the database.
-class connection
+//Function to connect to the database.
+function connect()
 {
-	private $errors = array();
-	public $db;
+	global $db;
+	include_once('../dba/dba.php');
 
-	function __construct($dbfile)
-	{
-		include_once($dbfile);
-		$this->db = new mysqli($host, $user, $password, $database);
-
-		$failed = mysqli_connect_errno();
-		if ($failed) {
-			$this->errors[] = $failed.': '.mysqli_connect_error();
-		}
-	}
-
-	function error()
-	{
-		$errno = $this->db->errno;
-		$error = $errno.': '.$this->db->error.'.';
-		if ($errno != 0) {
-			$this->errors[] = $error;
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	function print_errors()
-	{
-		foreach ($this->errors as $error) {
-			printp("Error $error");
-		}
-	}
-
-	function __destruct()
-	{
-		$test = $this->db->close();
+	try {
+		$db = new PDO("mysql:host=$host;dbname=$database", $user, $password);
+		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	} catch (PDOException $e) {
+		printp($e->getMessage());
 	}
 }
 
-$db = new connection('../dba/dba.php');
+connect();
 
 ?>

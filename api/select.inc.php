@@ -1,13 +1,21 @@
 <?php
 
-interface selectRoleplays
+abstract class select_roleplays
 {
-	function latest($db);
+	function __construct($db)
+	{
+		$this->db = $db;
+	}
+
+	function latest()
+	{
+		
+	}
 }
 
-class selectRoleplaysAnon implements selectRoleplays
+class select_roleplays_anon extends select_roleplays
 {
-	function latest($db)
+	function latest()
 	{
 		$roleplays = Array(
 			Array(
@@ -30,9 +38,9 @@ class selectRoleplaysAnon implements selectRoleplays
 	}
 }
 
-class selectRoleplaysUser implements selectRoleplays
+class select_roleplays_user extends select_roleplays
 {
-	function latest($db)
+	function latest()
 	{
 		$roleplays = Array(
 			Array(

@@ -5,12 +5,12 @@ $page = new page('templates/main.htmt');
 $page->title = 'Home';
 
 if (isset($_SESSION['username'])) {
-	$rpselect = new selectRoleplaysUser();
+	$rpselect = new select_roleplays_user($db);
 } else {
-	$rpselect = new selectRoleplaysAnon();
+	$rpselect = new select_roleplays_anon($db);
 }
 try {
-	$roleplays = $rpselect->latest($db);
+	$roleplays = $rpselect->latest();
 ?>
 <table>
 <?php foreach ($roleplays as $rp) { ?>
@@ -23,7 +23,7 @@ try {
 </table>
 <?php } catch (exception $e) { ?>
 <p>
-	Database connection failed.
+	Retrieving Roleplay List Failed.
 </p>
 <code>
 	<?php print_r($e); ?>

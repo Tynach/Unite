@@ -3,7 +3,7 @@
 $this->indent(5, "\t");
 
 //Modules
-$this->new_module('banner', 'modules/banner.htmf', 4, "\t");
+$this->new_module('banner', 'modules/banner.mod.php', 4, "\t");
 $this->new_module('search', 'modules/search.mod.php', 5, "\t");
 $this->new_module('navigation', 'modules/navigation.mod.php', 6, "\t");
 $this->new_module('footer', 'modules/footer.htmf', 4, "\t");

@@ -2,8 +2,15 @@
 <a href="<?php echo $myPath; ?>">
 	<img src="styles/logo.png" alt="Dimentions" />
 </a>
+<?php if ($_SESSION['username'] != '') {?>
 <div id="login">
-	<form method="post" action="control/login.php">
+	<p>
+		Welcome, <?php echo $_SESSION['username']; ?>!
+	</p>
+</div>
+<?php } else { ?>
+<div id="login">
+	<form method="post" action="login.php">
 		<p>
 			<label>Username</label>
 			<input type="text" name="username" />
@@ -12,5 +19,9 @@
 			<label>Password</label>
 			<input type="password" name="password" />
 		</p>
+		<p>
+			<input type="submit" />
+		</p>
 	</form>
 </div>
+<?php } ?>
