@@ -1,19 +1,13 @@
 <?php
 
-abstract class select_roleplays
-{
-	function __construct($db)
-	{
-		$this->db = $db;
-	}
+include_once('api/connect.inc.php');
 
-	function latest()
-	{
-		
-	}
+interface select_roleplays
+{
+	function latest();
 }
 
-class select_roleplays_anon extends select_roleplays
+class select_roleplays_anon extends connect implements select_roleplays
 {
 	function latest()
 	{
@@ -38,7 +32,7 @@ class select_roleplays_anon extends select_roleplays
 	}
 }
 
-class select_roleplays_user extends select_roleplays
+class select_roleplays_user extends connect implements select_roleplays
 {
 	function latest()
 	{

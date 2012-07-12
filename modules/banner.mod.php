@@ -5,7 +5,7 @@
 <?php if ($_SESSION['username'] != '') {?>
 <div id="login">
 	<p>
-		Welcome, <?php echo $_SESSION['username']; ?>!
+		Welcome, <?php echo $_SESSION['username']; ?>! <a href="logout.php">Log out</a>
 	</p>
 </div><?php } else { ?>
 <div id="login">
@@ -19,7 +19,7 @@
 			<input type="password" name="password" />
 		</p>
 		<p>
-			<input type="submit" />
+			<input type="submit" value="Log in" />
 		</p>
 	</form>
 </div><?php } ?>

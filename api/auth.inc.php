@@ -1,12 +1,9 @@
 <?php
 
-class auth
-{
-	function __construct($db)
-	{
-		$this->db = $db;
-	}
+include_once('api/connect.inc.php');
 
+class auth extends connect
+{
 	function check_auth($username, $password)
 	{
 		try {
