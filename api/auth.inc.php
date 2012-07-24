@@ -20,6 +20,11 @@ class auth extends connect
 		if ($row['username'] != '') {
 			$_SESSION['username'] = $row['username'];
 			$_SESSION['user_id'] = $row['user_id'];
+			unset($_SESSION['untry']);
+			unset($_SESSION['pwtry']);
+		} else {
+			$_SESSION['untry'] = $username;
+			$_SESSION['pwtry'] = $password;
 		}
 
 		back();

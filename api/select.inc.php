@@ -12,7 +12,7 @@ class select_roleplays_anon extends connect implements select_roleplays
 	function latest()
 	{
 		try {
-			$prepare = $this->db->query('SELECT rp_id, name, created, r.rating FROM roleplays rp LEFT JOIN ratings r ON (r.rating_id = rp.rating_id) WHERE r.age < 13 AND rp.public = "yes" ORDER BY rp.rp_id DESC LIMIT 10');
+			$prepare = $this->db->query('SELECT rp_id, name, created, r.rating FROM roleplays rp LEFT JOIN ratings r ON (r.rating_id = rp.rating_id) WHERE r.age <= 13 AND rp.public = "yes" ORDER BY rp.rp_id DESC LIMIT 10');
 			$prepare->setFetchMode(PDO::FETCH_ASSOC);
 
 			while ($row = $prepare->fetch()) {

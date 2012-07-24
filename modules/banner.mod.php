@@ -12,11 +12,11 @@
 	<form method="post" action="login.php">
 		<p>
 			<label>Username</label>
-			<input type="text" name="username" />
+			<input type="text" name="username" value="<?php echo htmlspecialchars($_SESSION['untry']); ?>" />
 		</p>
 		<p>
 			<label>Password</label>
-			<input type="password" name="password" />
+			<input type="password" name="password" value="<?php echo htmlspecialchars($_SESSION['pwtry']); ?>" />
 		</p>
 		<p>
 			<input type="submit" value="Log in" />
