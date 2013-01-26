@@ -4,20 +4,21 @@
 $this->indent(3, "\t");
 
 //Create a new module on the page. Note it is used below ($this->footer).
-$this->new_module('footer', 'copyright.php', 3, "\t");
+$this->new_module('copyright', 'copyright.php', 3, "\t");
 
 ?><!DOCTYPE HTML>
 <html>
 	<head>
 		<title><?php echo $this->title; ?> - Your Website</title>
 		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="styles/main.css">
 	</head>
 	<body>
 		<div id="main">
 			<?php echo $this->content; ?>
 		</div>
 		<div>
-			<?php echo $this->footer->content; ?>
+			<?php echo $this->copyright->content; ?>
 		</div>
 	</body>
 </html>
