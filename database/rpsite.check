@@ -21,13 +21,13 @@ warn_levels OK
 warned_users OK
 
 user_privs OK
-user_mods OK
+user_global_mods OK
 behavior OK | | | | Make sure to name the 'Delete' button "Nuke It From Orbit".
 
 
 priv_msgs OK
 #pm_privs
-#pm_mods
+#pm_global_mods
 
 groups OK
 friends OK
@@ -40,7 +40,7 @@ club_topics OK
 club_posts | | | | | DOES NOT WORK D:
 
 club_privs OK
-club_member_mods OK
+club_mods OK
 club_global_mods OK
 
 
@@ -50,13 +50,18 @@ char_images OK
 
 char_privs OK
 char_lending OK
-char_mods OK
-char_club OK
+char_global_mods OK
+char_clubs OK
 
 
-universes
-univ_pages
-univ_tags
+universes OK
+univ_pages OK
+univ_tags OK
+
+univ_privs
+univ_mods
+univ_global_mods
+univ_clubs
 
 
 roleplays

@@ -191,7 +191,7 @@ CREATE TABLE user_privs (
 		ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
-CREATE TABLE user_mods (
+CREATE TABLE user_global_mods (
 	user_id INT UNSIGNED NOT NULL,
 	priv_id INT UNSIGNED NOT NULL,
 
@@ -258,7 +258,7 @@ CREATE TABLE priv_msgs (
 		ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
-CREATE TABLE pm_mods (
+CREATE TABLE pm_global_mods (
 	user_id INT UNSIGNED NOT NULL,
 	priv_id INT UNSIGNED NOT NULL,
 
@@ -380,7 +380,7 @@ CREATE TABLE club_privs (
 		ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
-CREATE TABLE club_member_mods (
+CREATE TABLE club_mods (
 	club_id INT UNSIGNED NOT NULL,
 	user_id INT UNSIGNED NOT NULL,
 	priv_id INT UNSIGNED NOT NULL,
@@ -488,7 +488,7 @@ CREATE TABLE char_lending (
 		ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
-CREATE TABLE char_mods (
+CREATE TABLE char_global_mods (
 	user_id INT UNSIGNED NOT NULL,
 	priv_id INT UNSIGNED NOT NULL,
 
@@ -501,7 +501,7 @@ CREATE TABLE char_mods (
 		ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
-CREATE TABLE char_club (		#Characters can be given to clubs for
+CREATE TABLE char_clubs (		#Characters can be given to clubs for
 	char_id INT UNSIGNED NOT NULL,	#full or limited use by the club's
 	club_id INT UNSIGNED NOT NULL,	#members.
 	priv_id INT UNSIGNED NOT NULL,
@@ -527,6 +527,7 @@ CREATE TABLE universes (
 	univ_id INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	user_id INT UNSIGNED NOT NULL,
 	name VARCHAR(50) NOT NULL,
+	created DATETIME NOT NULL,
 	rating_id INT UNSIGNED NOT NULL,
 
 	PRIMARY KEY (univ_id),
@@ -564,6 +565,64 @@ CREATE TABLE univ_tags (
 		ON UPDATE CASCADE
 ) ENGINE = InnoDB;
 
+#Universe Permissions
+
+CREATE TABLE univ_privs (
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (priv_id),
+	FOREIGN KEY (priv_id) REFERENCES privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE univ_mods (
+	univ_id INT UNSIGNED NOT NULL,
+	user_id INT UNSIGNED NOT NULL,
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (univ_id, user_id, priv_id),
+	FOREIGN KEY (univ_id) REFERENCES universes (univ_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (priv_id) REFERENCES univ_privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE univ_global_mods (
+	user_id INT UNSIGNED NOT NULL,
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (user_id, priv_id),
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (priv_id) REFERENCES univ_privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
+CREATE TABLE univ_clubs (
+	univ_id INT UNSIGNED NOT NULL,
+	club_id INT UNSIGNED NOT NULL,
+	priv_id INT UNSIGNED NOT NULL,
+
+	PRIMARY KEY (univ_id, club_id, priv_id),
+	FOREIGN KEY (univ_id) REFERENCES universes (univ_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (club_id) REFERENCES clubs (club_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE,
+	FOREIGN KEY (priv_id) REFERENCES univ_privs (priv_id)
+		ON DELETE CASCADE
+		ON UPDATE CASCADE
+) ENGINE = InnoDB;
+
 
 ###########
 #Roleplays#
@@ -577,7 +636,7 @@ CREATE TABLE roleplays (
 	description TEXT NOT NULL,
 	open ENUM('yes', 'no') NOT NULL,
 	public ENUM('yes', 'no') NOT NULL,
-	created DATE NOT NULL,
+	created DATETIME NOT NULL,
 	modified TIMESTAMP,
 
 	PRIMARY KEY (rp_id),
