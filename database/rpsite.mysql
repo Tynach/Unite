@@ -90,7 +90,7 @@ CREATE TABLE logins (
 
 
 ###############
-#User settings#
+#User Settings#
 ###############
 
 CREATE TABLE settings (
