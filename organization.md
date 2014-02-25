@@ -1,5 +1,4 @@
-This document will eventually serve as an outline for the website's navigation
-and general layout. For now, it's a list of all tables and their columns.
+This document will eventually serve as an outline for the website's navigation and general layout. For now, it's a list of all tables and their columns.
 
 Tables:
 

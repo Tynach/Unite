@@ -209,17 +209,16 @@ CREATE TABLE behavior (
 	user_id INT UNSIGNED NOT NULL,
 	note VARCHAR(100) NOT NULL,
 	moderator INT UNSIGNED,
-	dealt DATETIME NOT NULL,	#The date/time it was 'dealt with'.
-	value INT NOT NULL,
-						#'value' is usually +/- 1.
-						#It indicates whether or
-	PRIMARY KEY (record_id),		#not the record is a good
-	FOREIGN KEY (user_id) REFERENCES users (user_id)#or bad mark on their
-		ON DELETE CASCADE		#behavior (users can make
-		ON UPDATE CASCADE,		#up for bad behavior).
-	FOREIGN KEY (moderator) REFERENCES user_mods (user_id)
-		ON DELETE CASCADE
-		ON UPDATE CASCADE
+	dealt DATETIME NOT NULL, #The date/time it was 'dealt with'.
+	value INT NOT NULL,                                   #'value' is
+                                                              #usually +/- 1. It
+	PRIMARY KEY (record_id),                              #indicates whether
+	FOREIGN KEY (user_id) REFERENCES users (user_id)      #or not the record
+		ON DELETE CASCADE                             #is a good or bad
+		ON UPDATE CASCADE,                            #mark on their
+	FOREIGN KEY (moderator) REFERENCES user_mods (user_id)#behavior (users
+		ON DELETE SET NULL                            #can make up for
+		ON UPDATE CASCADE                             #bad behavior).
 ) ENGINE = InnoDB;
 
 
