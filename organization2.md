@@ -1,66 +1,66 @@
 * Admins
-	* General Configuration
+	* General Configuration **OK**
 		- Ratings
 		- Contact Types
 		- Warning Levels
-	* Tags Configuration
+	* Tags Configuration **OK**
 		- Tag List
 		- Implied Tags
 		- Tag Aliases
 		- Tag Ratings
 	* Privileges Configuration
-		- Privileges List
-		- User Privileges
+		- Privileges List **OK**
+		- User Privileges **OK**
 		- Private Message Privileges (**DISABLED**)
-		- Club Privileges
+		- Club Privileges **OK**
 		- Character Privileges
 		- Universe Privileges
 	* Granted Privileges (Global)
-		- User Moderators
+		- User Moderators **OK**
 		- Private Message Moderators (**DISABLED**)
-		- Club Moderators
+		- Club Moderators **OK**
 		- Character Moderators
 		- Universe Moderators
 	* Global Admins (**USE WITH CAUTION**)
 * Moderators
 	* Users
-		- Warned Users
-		- User Behavior
+		- Warned Users **OK**
+		- User Behavior **OK**
 	* Private Messages (**DISABLED**)
 	* Characters
 	* Universes
 * User Settings
-	* Required
+	* Required **OK**
 		- Username
 		- Password
 		- Email
 		- Birthday
-	* Calculated/Optional
+	* Calculated/Optional **OK**
 		- Time Settings
 		- Show Age/Birthday/Email
 		- Visibility
 		- First/Last Name
 		- Club signature
-	* Likely to change
+	* Likely to change **OK**
 		- Shown Ratings
 		- Contact Info
-	* Group Management
+	* Group Management **OK**
 		- Group Names
 		- Group Members (Friends)
-	* Private Messages
+	* Private Messages **OK**
 		- Sent Messages
 		- Received Messages
 * Search
-	- Users
-	- Clubs
-	- Characters
+	- Users **OK**
+	- Clubs **OK**
+	- Characters **OK**
 	- Universes
 * Clubs
-	* Per Club
+	* Per Club **OK**
 		- Member List
 		- Topic List
 		- Club Moderators
-	* Per Topic
+	* Per Topic **OK**
 		- Post List
 * Characters
 	* Per Character

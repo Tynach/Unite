@@ -64,20 +64,4 @@ $filter->add_filters(array(
 ));
 */
 
-//Function to connect to the database.
-function connect()
-{
-	global $db;
-	include_once('../dba/dba.php');
-
-	try {
-		$db = new PDO("mysql:host=$host;dbname=$database", $user, $password);
-		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-	} catch (PDOException $e) {
-		printp($e->getMessage());
-	}
-}
-
-connect();
-
 ?>

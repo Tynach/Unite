@@ -12,6 +12,4 @@ include_once('general.inc.php');
 include_once('template.inc.php');
 include_once('security.inc.php');
 
-include_once('api/select.inc.php');
-
 ?>

@@ -109,6 +109,11 @@ form > p > label {
 	border-left: 1px solid black;
 }
 
+#content ul {
+	margin: 1em;
+	list-style-position: inside;
+}
+
 #content p {
 	text-align: justify;
 }
